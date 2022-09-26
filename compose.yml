@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: sg_board
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpass
+    volumes: 
+      - ./src:/var/www/laravel
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports:
+      - '8080:80'
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: sg_board
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpass
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
